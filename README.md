@@ -266,7 +266,7 @@ jobs:
           cd repo
           rm -rf ~/.m2
           ln -fs $(pwd)/m2 ~/.m2
-          mvn package
+          mvn package -DskipTests=true
           find target
 ```
 
