@@ -204,8 +204,75 @@ fly -t ws trigger-job -j hello-servlet/unit-test --watch
 ![image.png](https://qiita-image-store.s3.amazonaws.com/0/1852/b4d56c82-5f5e-d733-e441-ef6e1b929803.png)
 
 
-
 ## 初めてのJavaアプリケーションのデプロイ
+
+``` yaml
+---
+resources:
+- name: repo
+  type: git
+  source:
+    uri: https://github.com/making/hello-servlet.git
+
+jobs:
+- name: unit-test
+  plan:
+  - get: repo
+    trigger: true
+  - task: mvn-test
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: maven
+      inputs:
+      - name: repo
+      caches:
+      - path: repo/m2   
+      run:
+        path: bash
+        args:
+        - -c
+        - |
+          set -e
+          cd repo
+          rm -rf ~/.m2
+          ln -fs $(pwd)/m2 ~/.m2
+          mvn test
+- name: build-and-deploy
+  plan:
+  - get: repo
+    passed:
+    - unit-test
+    trigger: true
+  - task: mvn-package
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: maven
+      inputs:
+      - name: repo
+      caches:
+      - path: repo/m2
+      run:
+        path: bash
+        args:
+        - -c
+        - |
+          set -e
+          cd repo
+          rm -rf ~/.m2
+          ln -fs $(pwd)/m2 ~/.m2
+          mvn package
+          find target
+```
+
+
+
+![image.png](https://qiita-image-store.s3.amazonaws.com/0/1852/cdb6a278-b70a-53e1-61bc-c3e10dadadea.png)
 
 ```
 cf push
@@ -228,8 +295,10 @@ a
 ## developブランチの管理
 
 ```
-a
+[unit-test-dev] ---> [upload-dev] ---> [deploy-dev] ...> [merge-to-master] ---> [unit-test-prod] ---> [upload-prod] ---> [deploy-prod] ---> [bump-to-next-pacth-version] 
 ```
+
+## Pull Request
 
 ## あああ
 
