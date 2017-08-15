@@ -283,25 +283,30 @@ scp
 ## パッケージマネージャNexusの導入 
 
 ```
-aa
+* [unit-test] ---> [upload] ---> [deploy]
 ```
 
 ## semvarリソースでのバージョンの管理
 
 ```
-a
+* [unit-test] ---> [upload] ---> [deploy] ---> [bump-to-next-pacth-version] 
+* [bump-to-minor-version]
+* [bump-to-major-version]
 ```
 
 ## developブランチの管理
 
 ```
-[unit-test-dev] ---> [upload-dev] ---> [deploy-dev] ...> [merge-to-master] ---> [unit-test-prod] ---> [upload-prod] ---> [deploy-prod] ---> [bump-to-next-pacth-version] 
+* [unit-test-dev] ---> [upload-dev] ---> [deploy-dev] ...> [merge-to-master] ---> [unit-test-prod] ---> [upload-prod] ---> [deploy-prod] ---> [bump-to-next-pacth-version] 
+* [bump-to-minor-version]
+* [bump-to-major-version]
 ```
 
 ## Pull Request
 
-## あああ
-
 ```
-a
+* [unit-test-dev] ---> [upload-dev] ---> [deploy-dev] ...> [merge-to-master] ---> [unit-test-prod] ---> [upload-prod] ---> [deploy-prod] ---> [bump-to-next-pacth-version]
+* [unit-test-pullreq] 
+* [bump-to-minor-version]
+* [bump-to-major-version]
 ```
