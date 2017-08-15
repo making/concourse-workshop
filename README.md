@@ -92,6 +92,8 @@ fly -t ws trigger-job -j hello/hello-world --watch
 
 ## 初めてのJavaアプリケーションのテスト
 
+### パイプラインの記述
+
 ``` yaml
 ---
 resources:
@@ -124,17 +126,21 @@ jobs:
           mvn test
 ```
 
+### パイプラインの設定
+
 ```
 fly -t ws set-pipeline -p hello-servlet -c pipeline.yml
 ```
 
 ![image.png](https://qiita-image-store.s3.amazonaws.com/0/1852/87addfb4-cfbe-58e2-c7d7-4f4259c4b8e1.png)
 
+### パイプラインのpause解除
 
 
 ```
 fly -t ws unpause-pipeline -p hello-servlet
 ```
+
 
 ![image.png](https://qiita-image-store.s3.amazonaws.com/0/1852/08c16fcb-8dac-d5d3-2ee7-57b211ab5c2b.png)
 
@@ -142,6 +148,8 @@ fly -t ws unpause-pipeline -p hello-servlet
 
 ![image.png](https://qiita-image-store.s3.amazonaws.com/0/1852/b5b51b98-37f3-65f1-3687-1ba4a0bed2ac.png)
 
+
+### ジョブの再実行
 
 ```
 fly -t ws trigger-job -j hello-servlet/unit-test --watch
@@ -152,6 +160,8 @@ fly -t ws trigger-job -j hello-servlet/unit-test --watch
 
 
 ## キャッシュの導入
+
+### パイプラインの記述(更新)
 
 ``` yaml
 ---
@@ -189,7 +199,15 @@ jobs:
           mvn test
 ```
 
+### パイプラインの設定(更新)
+
+```
+fly -t ws set-pipeline -p hello-servlet -c pipeline.yml
+```
+
 ![image.png](https://qiita-image-store.s3.amazonaws.com/0/1852/fcf90e41-32c9-01aa-9ce8-f84d0361581b.png)
+
+### ジョブの実行
 
 ```
 fly -t ws trigger-job -j hello-servlet/unit-test --watch
@@ -205,6 +223,8 @@ fly -t ws trigger-job -j hello-servlet/unit-test --watch
 
 
 ## 初めてのJavaアプリケーションのデプロイ
+
+### ジョブの連携
 
 ``` yaml
 ---
@@ -270,15 +290,124 @@ jobs:
           find target
 ```
 
-
-
 ![image.png](https://qiita-image-store.s3.amazonaws.com/0/1852/cdb6a278-b70a-53e1-61bc-c3e10dadadea.png)
 
-```
-cf push
 
-scp
+### デプロイ
+
+#### Cloud Foundryへのデプロイ
+
+
+``` yaml
+---
+resources:
+- name: repo
+  type: git
+  source:
+    uri: https://github.com/making/hello-servlet.git
+- name: cf
+  type: cf
+  source:
+    api: {{cf-api}}
+    username: {{cf-username}}
+    password: {{cf-password}}
+    organization: {{cf-org}}
+    space: {{cf-space}}
+    skip_cert_check: true
+jobs:
+- name: unit-test
+  plan:
+  - get: repo
+    trigger: true
+  - task: mvn-test
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: maven
+      inputs:
+      - name: repo
+      caches:
+      - path: repo/m2   
+      run:
+        path: bash
+        args:
+        - -c
+        - |
+          set -e
+          cd repo
+          rm -rf ~/.m2
+          ln -fs $(pwd)/m2 ~/.m2
+          mvn test
+- name: build-and-deploy
+  plan:
+  - get: repo
+    passed:
+    - unit-test
+    trigger: true
+  - task: mvn-package
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: maven
+      inputs:
+      - name: repo
+      outputs:
+      - name: build
+      caches:
+      - path: repo/m2
+      run:
+        path: bash
+        args:
+        - -c
+        - |
+          set -e
+          cd repo
+          rm -rf ~/.m2
+          ln -fs $(pwd)/m2 ~/.m2
+          mvn package -DskipTests=true
+          mv target/ROOT.war ../build
+  - put: cf
+    params:
+      manifest: repo/manifest.yml
+      path: build/ROOT.war
 ```
+
+`credentials.yml`
+
+``` yaml
+---
+cf-api: https://api.run.pivotal.io
+cf-username: xxxxxx
+cf-password: xxxxxx
+cf-org: xxxxxx
+cf-space: xxxxxx
+```
+
+```
+fly -t ws set-pipeline -p hello-servlet -c pipeline.yml -l credentials.yml
+```
+
+
+![image.png](https://qiita-image-store.s3.amazonaws.com/0/1852/69aec1cd-155b-5e67-9e22-c418cfa78582.png)
+
+
+
+```
+$ curl https://hello-servlet.cfapps.io
+
+██╗     █████╗ ███╗   ███╗    ███████╗████████╗██╗██╗     ██╗          █████╗ ████████╗    ██╗    ██╗ █████╗ ██████╗ 
+██║    ██╔══██╗████╗ ████║    ██╔════╝╚══██╔══╝██║██║     ██║         ██╔══██╗╚══██╔══╝    ██║    ██║██╔══██╗██╔══██╗
+██║    ███████║██╔████╔██║    ███████╗   ██║   ██║██║     ██║         ███████║   ██║       ██║ █╗ ██║███████║██████╔╝
+██║    ██╔══██║██║╚██╔╝██║    ╚════██║   ██║   ██║██║     ██║         ██╔══██║   ██║       ██║███╗██║██╔══██║██╔══██╗
+██║    ██║  ██║██║ ╚═╝ ██║    ███████║   ██║   ██║███████╗███████╗    ██║  ██║   ██║       ╚███╔███╔╝██║  ██║██║  ██║
+╚═╝    ╚═╝  ╚═╝╚═╝     ╚═╝    ╚══════╝   ╚═╝   ╚═╝╚══════╝╚══════╝    ╚═╝  ╚═╝   ╚═╝        ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+```
+
+### SCPで別サーバーへデプロイ
 
 ## パッケージマネージャNexusの導入 
 
@@ -286,7 +415,7 @@ scp
 * [unit-test] ---> [upload] ---> [deploy]
 ```
 
-## semvarリソースでのバージョンの管理
+## semverリソースでのバージョンの管理
 
 ```
 * [unit-test] ---> [upload] ---> [deploy] ---> [bump-to-next-pacth-version] 
@@ -310,3 +439,22 @@ scp
 * [bump-to-minor-version]
 * [bump-to-major-version]
 ```
+
+## Slackへの通知
+
+TBD
+
+## WebHook
+
+TBD
+
+## `fly hijack`でデバッグ
+
+TBD
+
+## VaultによるCredentialsの管理
+
+TBD
+
+----
+© 2017 Pivotal Japan
