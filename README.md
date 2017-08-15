@@ -494,7 +494,100 @@ jobs:
 ### SCPで別サーバーへデプロイ(おまけ)
 
 ``` yaml
+---
+resource_types:
+- name: scp
+  type: docker-image
+  source:
+    repository: ecsteam/scp-resource
+    tag: v1.0.23
 
+resources:
+- name: repo
+  type: git
+  source:
+    uri: https://github.com/making/hello-servlet.git
+- name: my-server
+  type: scp
+  source:
+    host: {{ssh-host}}
+    user: {{ssh-user}}
+    private_key: {{ssh-private-key}}
+    base_directory: {{ssh-base-dir}}
+    glob: '*'
+jobs:
+- name: unit-test
+  plan:
+  - get: repo
+    trigger: true
+  - task: mvn-test
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: maven
+      inputs:
+      - name: repo
+      caches:
+      - path: repo/m2   
+      run:
+        path: bash
+        args:
+        - -c
+        - |
+          set -e
+          cd repo
+          rm -rf ~/.m2
+          ln -fs $(pwd)/m2 ~/.m2
+          mvn test
+- name: build-and-deploy
+  plan:
+  - get: repo
+    passed:
+    - unit-test
+    trigger: true
+  - task: mvn-package
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: maven
+      inputs:
+      - name: repo
+      outputs:
+      - name: build
+      caches:
+      - path: repo/m2
+      run:
+        path: bash
+        args:
+        - -c
+        - |
+          set -e
+          cd repo
+          rm -rf ~/.m2
+          ln -fs $(pwd)/m2 ~/.m2
+          mvn package -DskipTests=true
+          mv target/ROOT.war ../build/
+  - put: my-server
+    params:
+      glob: build/*
+      destdir: {{ssh-base-dir}}
+```
+
+`credentials.yml`
+
+``` yaml
+ssh-host: xxxxxx
+ssh-user: xxxxxx
+ssh-private-key: |
+  -----BEGIN RSA PRIVATE KEY-----
+  xxxxxx
+  xxxxxx
+  -----END RSA PRIVATE KEY-----
+ssh-base-dir: /opt/tomcat/
 ```
 
 ## パッケージマネージャNexusの導入 
