@@ -18,6 +18,7 @@
 * [Pull Requestに対するテスト](pull-request-resource.md)
 * Slackへの通知
 * WebHook
+* Docker in Dockerを利用したインテグレーションテスト
 * `fly hijack`でデバッグ
 * VaultによるCredentialsの管理
 
