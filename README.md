@@ -20,6 +20,7 @@
 * WebHook
 * Docker in Dockerを利用したインテグレーションテスト
 * `fly hijack`でデバッグ
+* Taskのファイル分割
 * VaultによるCredentialsの管理
 
 
