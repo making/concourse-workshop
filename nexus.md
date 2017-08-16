@@ -155,12 +155,12 @@ nexus-username: admin
 nexus-password: admin123
 ```
 
-![image.png](https://qiita-image-store.s3.amazonaws.com/0/1852/2fec5232-109c-3f47-bea3-3f9eed2d71cb.png)
-
-
 ```
 fly -t ws set-pipeline -p hello-servlet -c pipeline.yml -l credentials.yml
 ```
+
+![image.png](https://qiita-image-store.s3.amazonaws.com/0/1852/2fec5232-109c-3f47-bea3-3f9eed2d71cb.png)
+
 
 ```
 fly -t ws trigger-job -j hello-servlet/deploy --watch
