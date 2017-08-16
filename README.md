@@ -4,8 +4,22 @@
 
 ## 準備
 
+* [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+* [BOSH CLI](https://bosh.io/docs/cli-v2.html#install)
+
 ```
-fly -t ws login -n myteam https://concourse.example.com
+curl -L -J -O https://github.com/concourse/concourse/releases/download/v3.4.0/concourse-lite.yml
+bosh create-env concourse-lite.yml
+```
+
+[参考:Install Log](https://gist.github.com/making/93a54be96722c06fa319be70c1d5bfbc)
+
+![image.png](https://qiita-image-store.s3.amazonaws.com/0/1852/8db7652f-0052-cb29-9869-d1e600743a85.png)
+
+
+
+```
+fly -t ws login -c http://192.168.100.4:8080
 ```
 
 
@@ -495,26 +509,11 @@ jobs:
 
 ``` yaml
 ---
-resource_types:
-- name: scp
-  type: docker-image
-  source:
-    repository: ecsteam/scp-resource
-    tag: v1.0.23
-
 resources:
 - name: repo
   type: git
   source:
     uri: https://github.com/making/hello-servlet.git
-- name: my-server
-  type: scp
-  source:
-    host: {{ssh-host}}
-    user: {{ssh-user}}
-    private_key: {{ssh-private-key}}
-    base_directory: {{ssh-base-dir}}
-    glob: '*'
 jobs:
 - name: unit-test
   plan:
@@ -571,10 +570,31 @@ jobs:
           ln -fs $(pwd)/m2 ~/.m2
           mvn package -DskipTests=true
           mv target/ROOT.war ../build/
-  - put: my-server
+  - task: scp
     params:
-      glob: build/*
-      destdir: {{ssh-base-dir}}
+      SSH_USER: {{ssh-user}}
+      SSH_HOST: {{ssh-host}}
+      SSH_PRIVATE_KEY: {{ssh-private-key}}
+      SSH_BASE_DIR: {{ssh-base-dir}}
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: ecsteam/scp-resource
+      inputs:
+      - name: build
+      run:
+        path: bash
+        args: 
+        - -c
+        - |
+          set -e
+          cat > private_key <<EOF
+          ${SSH_PRIVATE_KEY}
+          EOF
+          chmod 400 private_key
+          scp -i private_key -o StrictHostKeyChecking=no build/* ${SSH_USER}@${SSH_HOST}:${SSH_BASE_DIR}/
 ```
 
 `credentials.yml`
