@@ -267,7 +267,7 @@ jobs:
       current_app_name: hello-servlet
 ```
 
-### SCPで別サーバーへデプロイ(おまけ)
+### (おまけ) SCPで別サーバーへデプロイ
 
 ``` yaml
 ---
@@ -370,4 +370,9 @@ ssh-private-key: |
   xxxxxx
   -----END RSA PRIVATE KEY-----
 ssh-base-dir: /opt/tomcat/
+```
+
+
+```
+fly -t ws set-pipeline -p hello-servlet -c pipeline.yml -l credentials.yml
 ```
