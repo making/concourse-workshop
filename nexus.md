@@ -3,13 +3,14 @@
 ### Nexusのインストール
 
 ```
-curl -L -J -O https://github.com/making/nexus-boshrelease/releases/download/0.3.2/nexus.yml
+curl -L -J -O https://github.com/making/nexus-boshrelease/releases/download/0.4.0/nexus.yml
 bosh create-env nexus.yml -v internal_ip=192.168.230.40  --vars-store ./creds.yml
 ```
-http://192.168.230.40:8081
+https://192.168.230.40
 
 `admin`:`admin123`
 
+![image](https://user-images.githubusercontent.com/106908/29428304-ac8b3338-83c7-11e7-82de-887c83c0daf8.png)
 
 ### Nexusへアップロード及びNexusからダウンロード
 
@@ -132,7 +133,7 @@ jobs:
           URL=${NEXUS_URL}/`echo ${GROUP_ID} | sed "s/\./\//g"`/${ARTIFACT_ID}/${VERSION}
           SNAPSHOT=`curl -s ${URL}/maven-metadata.xml | grep '<snapshotVersions>' -A 3 | grep 'value' | tr -d ' ' | tr -d '</value>'`
           echo "Download ${URL}/${ARTIFACT_ID}-${SNAPSHOT}.${PACKAGING}"
-          curl -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} -L -J -O ${URL}/${ARTIFACT_ID}-${SNAPSHOT}.${PACKAGING}
+          curl -k -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} -L -J -O ${URL}/${ARTIFACT_ID}-${SNAPSHOT}.${PACKAGING}
           mv *.war ../build/ROOT.war
   - put: cf
     params:
@@ -150,7 +151,7 @@ cf-username: xxxxxx
 cf-password: xxxxxx
 cf-org: xxxxxx
 cf-space: xxxxxx
-nexus-snapshot-url: http://192.168.230.40:8081/repository/maven-snapshots/
+nexus-snapshot-url: https://192.168.230.40/repository/maven-snapshots/
 nexus-username: admin
 nexus-password: admin123
 ```
