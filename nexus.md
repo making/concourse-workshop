@@ -99,7 +99,7 @@ jobs:
             </servers>
           </settings>
           EOF
-          mvn deploy -s settings.xml -DskipTests=true -DaltDeploymentRepository=repo::default::${NEXUS_URL}
+          mvn deploy -s settings.xml -DskipTests=true -DaltDeploymentRepository=repo::default::${NEXUS_URL} -Dmaven.wagon.http.ssl.insecure=true -D maven.wagon.http.ssl.ignore.validity.dates=true
 - name: deploy
   plan:
   - get: repo
@@ -109,9 +109,6 @@ jobs:
   - task: download-artifact
     params:
       <<: *NEXUS_SNAPSHOT
-      GROUP_ID: com.example.hello
-      ARTIFACT_ID: hello-servlet
-      PACKAGING: war
     config:
       platform: linux
       image_resource:
@@ -129,17 +126,20 @@ jobs:
         - |
           set -e
           cd repo
-          VERSION=`grep '<version>' pom.xml | head -1 | tr -d ' ' | tr -d '</version>'`
+          GROUP_ID=`grep '<groupId>' pom.xml | head -1  | sed -r 's/[ \f\n\r\t]+//g' | sed  -r 's|<.?groupId>||g'`
+          ARTIFACT_ID=`grep '<artifactId>' pom.xml | head -1  | sed -r 's/[ \f\n\r\t]+//g' | sed  -r 's|<.?artifactId>||g'`
+          VERSION=`grep '<version>' pom.xml | head -1  | sed -r 's/[ \f\n\r\t]+//g' | sed  -r 's|<.?version>||g'`
           URL=${NEXUS_URL}/`echo ${GROUP_ID} | sed "s/\./\//g"`/${ARTIFACT_ID}/${VERSION}
-          SNAPSHOT=`curl -s ${URL}/maven-metadata.xml | grep '<snapshotVersions>' -A 3 | grep 'value' | tr -d ' ' | tr -d '</value>'`
-          echo "Download ${URL}/${ARTIFACT_ID}-${SNAPSHOT}.${PACKAGING}"
-          curl -k -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} -L -J -O ${URL}/${ARTIFACT_ID}-${SNAPSHOT}.${PACKAGING}
+          SNAPSHOT=`curl -k -s ${URL}/maven-metadata.xml | grep '<snapshotVersions>' -A 3 | grep 'value' | tr -d ' ' | tr -d '</value>'`
+          echo "Download ${URL}/${ARTIFACT_ID}-${SNAPSHOT}.war"
+          curl -k -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} -L -J -O ${URL}/${ARTIFACT_ID}-${SNAPSHOT}.war
           mv *.war ../build/ROOT.war
   - put: cf
     params:
       manifest: repo/manifest.yml
       path: build/ROOT.war
       current_app_name: hello-servlet
+
 ```
 
 `credentials.yml`
