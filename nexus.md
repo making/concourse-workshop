@@ -15,7 +15,7 @@ https://192.168.230.40
 ### Nexusへアップロード及びNexusからダウンロード
 
 ``` yaml
----
+--
 resources:
 - name: repo
   type: git
@@ -129,7 +129,7 @@ jobs:
           GROUP_ID=`grep '<groupId>' pom.xml | head -1  | sed -r 's/[ \f\n\r\t]+//g' | sed  -r 's|<.?groupId>||g'`
           ARTIFACT_ID=`grep '<artifactId>' pom.xml | head -1  | sed -r 's/[ \f\n\r\t]+//g' | sed  -r 's|<.?artifactId>||g'`
           VERSION=`grep '<version>' pom.xml | head -1  | sed -r 's/[ \f\n\r\t]+//g' | sed  -r 's|<.?version>||g'`
-          URL=${NEXUS_URL}/`echo ${GROUP_ID} | sed "s/\./\//g"`/${ARTIFACT_ID}/${VERSION}
+          URL=${NEXUS_URL}/`echo ${GROUP_ID} | sed 's|\.|/|g'`/${ARTIFACT_ID}/${VERSION}
           SNAPSHOT=`curl -k -s ${URL}/maven-metadata.xml | grep '<snapshotVersions>' -A 3 | grep 'value' | tr -d ' ' | tr -d '</value>'`
           echo "Download ${URL}/${ARTIFACT_ID}-${SNAPSHOT}.war"
           curl -k -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} -L -J -O ${URL}/${ARTIFACT_ID}-${SNAPSHOT}.war
@@ -139,7 +139,6 @@ jobs:
       manifest: repo/manifest.yml
       path: build/ROOT.war
       current_app_name: hello-servlet
-
 ```
 
 `credentials.yml`
