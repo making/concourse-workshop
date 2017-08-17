@@ -167,6 +167,3 @@ fly -t ws set-pipeline -p hello-servlet -c pipeline.yml -l credentials.yml
 fly -t ws trigger-job -j hello-servlet/deploy --watch
 ```
 
-
-![image.png](https://qiita-image-store.s3.amazonaws.com/0/1852/66feb4e3-3466-ce60-be74-9644082c7e91.png)
-
