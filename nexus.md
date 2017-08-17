@@ -15,7 +15,7 @@ https://192.168.230.40
 ### Nexusへアップロード及びNexusからダウンロード
 
 ``` yaml
---
+---
 resources:
 - name: repo
   type: git
