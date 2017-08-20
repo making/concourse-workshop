@@ -1,6 +1,6 @@
 ## semverリソースでのバージョンの管理
 
-### hello-servletプロジェクトのfork
+### hello-servletプロジェクトのforkおよびhello-servlet-versionプロジェクトの作成
 
 <img width="80%"  src="https://user-images.githubusercontent.com/106908/29493202-049509a8-85cd-11e7-8e18-8088ae8ae51b.png">
 
