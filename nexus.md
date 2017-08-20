@@ -56,7 +56,7 @@ jobs:
           rm -rf ~/.m2
           ln -fs $(pwd)/m2 ~/.m2
           mvn test
-- name: upload-to-nexus
+- name: upload-to-nexus-snapshots
   plan:
   - get: repo
     passed:
@@ -104,7 +104,7 @@ jobs:
   plan:
   - get: repo
     passed:
-    - upload-to-nexus
+    - upload-to-nexus-snapshots
     trigger: true
   - task: download-artifact
     params:
