@@ -1011,8 +1011,6 @@ jobs:
   plan:
   - aggregate:
     - get: repo
-      passed:
-      - upload-to-nexus-releases
     - get: repo-version
       params:
         bump: minor
@@ -1032,8 +1030,6 @@ jobs:
   plan:
   - aggregate:
     - get: repo
-      passed:
-      - upload-to-nexus-releases
     - get: repo-version
       params:
         bump: major
@@ -1051,7 +1047,7 @@ jobs:
       file: repo-version/number
 ```
 
-![image](https://user-images.githubusercontent.com/106908/29495828-fc0bbf04-8601-11e7-90b2-c15f188cfdda.png)
+![image](https://user-images.githubusercontent.com/106908/29495906-38e66180-8603-11e7-92fe-2f336596c578.png)
 
 
 
