@@ -1047,7 +1047,7 @@ jobs:
       file: repo-version/number
 ```
 
-![image](https://user-images.githubusercontent.com/106908/29495906-38e66180-8603-11e7-92fe-2f336596c578.png)
+![image](https://user-images.githubusercontent.com/106908/29495941-a8e800c4-8603-11e7-9534-132f4ea53f04.png)
 
 
 
