@@ -16,7 +16,7 @@ Concourse 3.3以上を想定しています。
 * [パッケージマネージャNexusの導入](nexus.md)
 * [semverリソースでのバージョンの管理](semver-resource.md)
 * [developブランチの管理](develop-branch.md)
-* [Pull Requestに対するテスト](pull-request-resource.md)
+* Pull Requestに対するテスト
 * Slackへの通知
 * WebHook
 * Docker in Dockerを利用したインテグレーションテスト
