@@ -6,6 +6,11 @@
 
 Concourse 3.3以上を想定しています。
 
+次のようなCI/CDパイプラインを構築できるように、Concourseの基本をステップバイステップで学びます。
+
+![image](https://user-images.githubusercontent.com/106908/29496945-ecd53dc8-8618-11e7-8329-e2947aa23f47.png)
+
+
 ## 目次
 
 * [事前準備](prerequisite.md)
