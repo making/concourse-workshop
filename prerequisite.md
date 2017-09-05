@@ -4,7 +4,7 @@
 * [BOSH CLI](https://bosh.io/docs/cli-v2.html#install)
 
 ```
-curl -L -J -O https://github.com/concourse/concourse/releases/download/v3.4.0/concourse-lite.yml
+curl -L -J -O https://github.com/concourse/concourse/releases/download/v3.4.1/concourse-lite.yml
 bosh create-env concourse-lite.yml
 ```
 
