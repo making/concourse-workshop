@@ -24,11 +24,11 @@ resources:
 - name: cf
   type: cf
   source:
-    api: {{cf-api}}
-    username: {{cf-username}}
-    password: {{cf-password}}
-    organization: {{cf-org}}
-    space: {{cf-space}}
+    api: ((cf-api))
+    username: ((cf-username))
+    password: ((cf-password))
+    organization: ((cf-org))
+    space: ((cf-space))
     skip_cert_check: true
 jobs:
 - name: unit-test
@@ -64,9 +64,9 @@ jobs:
     trigger: true
   - task: mvn-deploy
     params: &NEXUS_SNAPSHOT
-      NEXUS_URL: {{nexus-snapshot-url}}
-      NEXUS_USERNAME: {{nexus-username}}
-      NEXUS_PASSWORD: {{nexus-password}}
+      NEXUS_URL: ((nexus-snapshot-url))
+      NEXUS_USERNAME: ((nexus-username))
+      NEXUS_PASSWORD: ((nexus-password))
     config:
       platform: linux
       image_resource:

@@ -81,11 +81,11 @@ resources:
 - name: cf
   type: cf
   source:
-    api: {{cf-api}}
-    username: {{cf-username}}
-    password: {{cf-password}}
-    organization: {{cf-org}}
-    space: {{cf-space}}
+    api: ((cf-api))
+    username: ((cf-username))
+    password: ((cf-password))
+    organization: ((cf-org))
+    space: ((cf-space))
     skip_cert_check: true
 jobs:
 - name: unit-test
@@ -198,11 +198,11 @@ resources:
 - name: cf
   type: cf
   source:
-    api: {{cf-api}}
-    username: {{cf-username}}
-    password: {{cf-password}}
-    organization: {{cf-org}}
-    space: {{cf-space}}
+    api: ((cf-api))
+    username: ((cf-username))
+    password: ((cf-password))
+    organization: ((cf-org))
+    space: ((cf-space))
     skip_cert_check: true
 jobs:
 - name: unit-test
@@ -334,10 +334,10 @@ jobs:
           mv target/ROOT.war ../build/
   - task: scp
     params:
-      SSH_USER: {{ssh-user}}
-      SSH_HOST: {{ssh-host}}
-      SSH_PRIVATE_KEY: {{ssh-private-key}}
-      SSH_BASE_DIR: {{ssh-base-dir}}
+      SSH_USER: ((ssh-user))
+      SSH_HOST: ((ssh-host))
+      SSH_PRIVATE_KEY: ((ssh-private-key))
+      SSH_BASE_DIR: ((ssh-base-dir))
     config:
       platform: linux
       image_resource:

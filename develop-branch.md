@@ -9,38 +9,38 @@ resources:
   type: git
   source:
     uri: git@github.com:pivot-tmaki/hello-servlet.git
-    private_key: {{github-private-key}}
+    private_key: ((github-private-key))
     branch: develop
 - name: repo-master
   type: git
   source:
     uri: git@github.com:pivot-tmaki/hello-servlet.git
-    private_key: {{github-private-key}}
+    private_key: ((github-private-key))
     branch: master
 - name: repo-version
   type: semver
   source:
     uri: git@github.com:pivot-tmaki/hello-servlet-version.git
     branch: master
-    private_key: {{github-private-key}}
+    private_key: ((github-private-key))
     file: version
     driver: git
 - name: cf-develop
   type: cf
   source:
-    api: {{cf-api}}
-    username: {{cf-username}}
-    password: {{cf-password}}
-    organization: {{cf-org}}
+    api: ((cf-api))
+    username: ((cf-username))
+    password: ((cf-password))
+    organization: ((cf-org))
     space: development
     skip_cert_check: true
 - name: cf-master
   type: cf
   source:
-    api: {{cf-api}}
-    username: {{cf-username}}
-    password: {{cf-password}}
-    organization: {{cf-org}}
+    api: ((cf-api))
+    username: ((cf-username))
+    password: ((cf-password))
+    organization: ((cf-org))
     space: production
     skip_cert_check: true
 jobs:
@@ -79,9 +79,9 @@ jobs:
     trigger: true
   - task: mvn-deploy
     params: &NEXUS_SNAPSHOT
-      NEXUS_URL: {{nexus-snapshot-url}}
-      NEXUS_USERNAME: {{nexus-username}}
-      NEXUS_PASSWORD: {{nexus-password}}
+      NEXUS_URL: ((nexus-snapshot-url))
+      NEXUS_USERNAME: ((nexus-username))
+      NEXUS_PASSWORD: ((nexus-password))
     config: &NEXUS_DEPLOY_CONFIG
       platform: linux
       image_resource:
@@ -166,8 +166,8 @@ jobs:
       resource: repo-master
   - task: merge-develop-to-master
     params: &GIT_PARAMS
-      GIT_EMAIL: {{git-email}}
-      GIT_NAME: {{git-name}}
+      GIT_EMAIL: ((git-email))
+      GIT_NAME: ((git-name))
       SRC_BRANCH: develop
     config: &MERGE_SRC_TO_DEST
       platform: linux
@@ -264,9 +264,9 @@ jobs:
     trigger: true
   - task: mvn-deploy
     params: &NEXUS_RELEASE
-      NEXUS_URL: {{nexus-release-url}}
-      NEXUS_USERNAME: {{nexus-username}}
-      NEXUS_PASSWORD: {{nexus-password}}
+      NEXUS_URL: ((nexus-release-url))
+      NEXUS_USERNAME: ((nexus-username))
+      NEXUS_PASSWORD: ((nexus-password))
     config:
       <<: *NEXUS_DEPLOY_CONFIG
 - name: deploy-master

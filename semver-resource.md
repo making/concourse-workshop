@@ -58,24 +58,24 @@ resources:
   type: git
   source:
     uri: git@github.com:pivot-tmaki/hello-servlet.git
-    private_key: {{github-private-key}}
+    private_key: ((github-private-key))
     branch: master
 - name: repo-version
   type: semver
   source:
     uri: git@github.com:pivot-tmaki/hello-servlet-version.git
     branch: master
-    private_key: {{github-private-key}}
+    private_key: ((github-private-key))
     file: version
     driver: git
 - name: cf
   type: cf
   source:
-    api: {{cf-api}}
-    username: {{cf-username}}
-    password: {{cf-password}}
-    organization: {{cf-org}}
-    space: {{cf-space}}
+    api: ((cf-api))
+    username: ((cf-username))
+    password: ((cf-password))
+    organization: ((cf-org))
+    space: ((cf-space))
     skip_cert_check: true
 jobs:
 - name: unit-test
@@ -111,9 +111,9 @@ jobs:
     trigger: true
   - task: mvn-deploy
     params: &NEXUS_SNAPSHOT
-      NEXUS_URL: {{nexus-snapshot-url}}
-      NEXUS_USERNAME: {{nexus-username}}
-      NEXUS_PASSWORD: {{nexus-password}}
+      NEXUS_URL: ((nexus-snapshot-url))
+      NEXUS_USERNAME: ((nexus-username))
+      NEXUS_PASSWORD: ((nexus-password))
     config:
       platform: linux
       image_resource:
@@ -263,24 +263,24 @@ resources:
   type: git
   source:
     uri: git@github.com:pivot-tmaki/hello-servlet.git
-    private_key: {{github-private-key}}
+    private_key: ((github-private-key))
     branch: master
 - name: repo-version
   type: semver
   source:
     uri: git@github.com:pivot-tmaki/hello-servlet-version.git
     branch: master
-    private_key: {{github-private-key}}
+    private_key: ((github-private-key))
     file: version
     driver: git
 - name: cf
   type: cf
   source:
-    api: {{cf-api}}
-    username: {{cf-username}}
-    password: {{cf-password}}
-    organization: {{cf-org}}
-    space: {{cf-space}}
+    api: ((cf-api))
+    username: ((cf-username))
+    password: ((cf-password))
+    organization: ((cf-org))
+    space: ((cf-space))
     skip_cert_check: true
 jobs:
 - name: unit-test
@@ -316,9 +316,9 @@ jobs:
     trigger: true
   - task: mvn-deploy
     params: &NEXUS_SNAPSHOT
-      NEXUS_URL: {{nexus-snapshot-url}}
-      NEXUS_USERNAME: {{nexus-username}}
-      NEXUS_PASSWORD: {{nexus-password}}
+      NEXUS_URL: ((nexus-snapshot-url))
+      NEXUS_USERNAME: ((nexus-username))
+      NEXUS_PASSWORD: ((nexus-password))
     config:
       platform: linux
       image_resource:
@@ -400,8 +400,8 @@ jobs:
     - get: repo-version
   - task: mvn-versions-set
     params:
-      GIT_EMAIL: {{git-email}}
-      GIT_NAME: {{git-name}}
+      GIT_EMAIL: ((git-email))
+      GIT_NAME: ((git-name))
     config:
       platform: linux
       image_resource:
@@ -475,24 +475,24 @@ resources:
   type: git
   source:
     uri: git@github.com:pivot-tmaki/hello-servlet.git
-    private_key: {{github-private-key}}
+    private_key: ((github-private-key))
     branch: master
 - name: repo-version
   type: semver
   source:
     uri: git@github.com:pivot-tmaki/hello-servlet-version.git
     branch: master
-    private_key: {{github-private-key}}
+    private_key: ((github-private-key))
     file: version
     driver: git
 - name: cf
   type: cf
   source:
-    api: {{cf-api}}
-    username: {{cf-username}}
-    password: {{cf-password}}
-    organization: {{cf-org}}
-    space: {{cf-space}}
+    api: ((cf-api))
+    username: ((cf-username))
+    password: ((cf-password))
+    organization: ((cf-org))
+    space: ((cf-space))
     skip_cert_check: true
 jobs:
 - name: unit-test
@@ -528,9 +528,9 @@ jobs:
     trigger: true
   - task: mvn-deploy
     params: &NEXUS_SNAPSHOT
-      NEXUS_URL: {{nexus-snapshot-url}}
-      NEXUS_USERNAME: {{nexus-username}}
-      NEXUS_PASSWORD: {{nexus-password}}
+      NEXUS_URL: ((nexus-snapshot-url))
+      NEXUS_USERNAME: ((nexus-username))
+      NEXUS_PASSWORD: ((nexus-password))
     config: &NEXUS_DEPLOY_CONFIG
       platform: linux
       image_resource:
@@ -612,8 +612,8 @@ jobs:
     - get: repo-version
   - task: mvn-versions-set
     params:
-      GIT_EMAIL: {{git-email}}
-      GIT_NAME: {{git-name}}
+      GIT_EMAIL: ((git-email))
+      GIT_NAME: ((git-name))
     config:
       platform: linux
       image_resource:
@@ -659,9 +659,9 @@ jobs:
     trigger: true
   - task: mvn-deploy
     params: &NEXUS_RELEASE
-      NEXUS_URL: {{nexus-release-url}}
-      NEXUS_USERNAME: {{nexus-username}}
-      NEXUS_PASSWORD: {{nexus-password}}
+      NEXUS_URL: ((nexus-release-url))
+      NEXUS_USERNAME: ((nexus-username))
+      NEXUS_PASSWORD: ((nexus-password))
     config:
       <<: *NEXUS_DEPLOY_CONFIG
 - name: bump-to-next-patch-version
@@ -676,8 +676,8 @@ jobs:
         bump: patch
   - task: mvn-versions-set
     params:
-      GIT_EMAIL: {{git-email}}
-      GIT_NAME: {{git-name}}
+      GIT_EMAIL: ((git-email))
+      GIT_NAME: ((git-name))
     config:
       platform: linux
       image_resource:
@@ -765,24 +765,24 @@ resources:
   type: git
   source:
     uri: git@github.com:pivot-tmaki/hello-servlet.git
-    private_key: {{github-private-key}}
+    private_key: ((github-private-key))
     branch: master
 - name: repo-version
   type: semver
   source:
     uri: git@github.com:pivot-tmaki/hello-servlet-version.git
     branch: master
-    private_key: {{github-private-key}}
+    private_key: ((github-private-key))
     file: version
     driver: git
 - name: cf
   type: cf
   source:
-    api: {{cf-api}}
-    username: {{cf-username}}
-    password: {{cf-password}}
-    organization: {{cf-org}}
-    space: {{cf-space}}
+    api: ((cf-api))
+    username: ((cf-username))
+    password: ((cf-password))
+    organization: ((cf-org))
+    space: ((cf-space))
     skip_cert_check: true
 jobs:
 - name: unit-test
@@ -818,9 +818,9 @@ jobs:
     trigger: true
   - task: mvn-deploy
     params: &NEXUS_SNAPSHOT
-      NEXUS_URL: {{nexus-snapshot-url}}
-      NEXUS_USERNAME: {{nexus-username}}
-      NEXUS_PASSWORD: {{nexus-password}}
+      NEXUS_URL: ((nexus-snapshot-url))
+      NEXUS_USERNAME: ((nexus-username))
+      NEXUS_PASSWORD: ((nexus-password))
     config: &NEXUS_DEPLOY_CONFIG
       platform: linux
       image_resource:
@@ -902,8 +902,8 @@ jobs:
     - get: repo-version
   - task: mvn-versions-set
     params:
-      GIT_EMAIL: {{git-email}}
-      GIT_NAME: {{git-name}}
+      GIT_EMAIL: ((git-email))
+      GIT_NAME: ((git-name))
     config:
       platform: linux
       image_resource:
@@ -949,9 +949,9 @@ jobs:
     trigger: true
   - task: mvn-deploy
     params: &NEXUS_RELEASE
-      NEXUS_URL: {{nexus-release-url}}
-      NEXUS_USERNAME: {{nexus-username}}
-      NEXUS_PASSWORD: {{nexus-password}}
+      NEXUS_URL: ((nexus-release-url))
+      NEXUS_USERNAME: ((nexus-username))
+      NEXUS_PASSWORD: ((nexus-password))
     config:
       <<: *NEXUS_DEPLOY_CONFIG
 - name: bump-to-next-patch-version
@@ -966,8 +966,8 @@ jobs:
         bump: patch
   - task: mvn-versions-set
     params:
-      GIT_EMAIL: {{git-email}}
-      GIT_NAME: {{git-name}}
+      GIT_EMAIL: ((git-email))
+      GIT_NAME: ((git-name))
     config: &MVN_VERSIONS_SET_CONFIG
       platform: linux
       image_resource:
@@ -1016,8 +1016,8 @@ jobs:
         bump: minor
   - task: mvn-versions-set
     params:
-      GIT_EMAIL: {{git-email}}
-      GIT_NAME: {{git-name}}
+      GIT_EMAIL: ((git-email))
+      GIT_NAME: ((git-name))
     config:
       <<: *MVN_VERSIONS_SET_CONFIG
   - put: repo
@@ -1035,8 +1035,8 @@ jobs:
         bump: major
   - task: mvn-versions-set
     params:
-      GIT_EMAIL: {{git-email}}
-      GIT_NAME: {{git-name}}
+      GIT_EMAIL: ((git-email))
+      GIT_NAME: ((git-name))
     config:
       <<: *MVN_VERSIONS_SET_CONFIG
   - put: repo
