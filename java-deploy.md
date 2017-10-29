@@ -147,7 +147,10 @@ jobs:
     params:
       manifest: repo/manifest.yml
       path: build/ROOT.war
+      current_app_name: hello-servlet
 ```
+
+> **注意** アプリケーションのURLが重複しないように、`current_app_name: hello-servlet`の`hello-servlet`を`hello-servlet-自分のアカウント名`に変更してください。
 
 `credentials.yml`
 
@@ -183,88 +186,6 @@ $ curl https://hello-servlet.cfapps.io
 ██║    ██╔══██║██║╚██╔╝██║    ╚════██║   ██║   ██║██║     ██║         ██╔══██║   ██║       ██║███╗██║██╔══██║██╔══██╗
 ██║    ██║  ██║██║ ╚═╝ ██║    ███████║   ██║   ██║███████╗███████╗    ██║  ██║   ██║       ╚███╔███╔╝██║  ██║██║  ██║
 ╚═╝    ╚═╝  ╚═╝╚═╝     ╚═╝    ╚══════╝   ╚═╝   ╚═╝╚══════╝╚══════╝    ╚═╝  ╚═╝   ╚═╝        ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝
-```
-
-### Cloud Foundryへのゼロダウンタイムアップデート
-
-
-``` yaml
----
-resources:
-- name: repo
-  type: git
-  source:
-    uri: https://github.com/making/hello-servlet.git
-- name: cf
-  type: cf
-  source:
-    api: ((cf-api))
-    username: ((cf-username))
-    password: ((cf-password))
-    organization: ((cf-org))
-    space: ((cf-space))
-    skip_cert_check: true
-jobs:
-- name: unit-test
-  plan:
-  - get: repo
-    trigger: true
-  - task: mvn-test
-    config:
-      platform: linux
-      image_resource:
-        type: docker-image
-        source:
-          repository: maven
-      inputs:
-      - name: repo
-      caches:
-      - path: repo/m2   
-      run:
-        path: bash
-        args:
-        - -c
-        - |
-          set -e
-          cd repo
-          rm -rf ~/.m2
-          ln -fs $(pwd)/m2 ~/.m2
-          mvn test
-- name: build-and-deploy
-  plan:
-  - get: repo
-    passed:
-    - unit-test
-    trigger: true
-  - task: mvn-package
-    config:
-      platform: linux
-      image_resource:
-        type: docker-image
-        source:
-          repository: maven
-      inputs:
-      - name: repo
-      outputs:
-      - name: build
-      caches:
-      - path: repo/m2
-      run:
-        path: bash
-        args:
-        - -c
-        - |
-          set -e
-          cd repo
-          rm -rf ~/.m2
-          ln -fs $(pwd)/m2 ~/.m2
-          mvn package -DskipTests=true
-          mv target/ROOT.war ../build
-  - put: cf
-    params:
-      manifest: repo/manifest.yml
-      path: build/ROOT.war
-      current_app_name: hello-servlet
 ```
 
 ### (おまけ) SCPで別サーバーへデプロイ
