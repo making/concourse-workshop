@@ -141,6 +141,8 @@ jobs:
       current_app_name: hello-servlet
 ```
 
+> **注意** アプリケーションのURLが重複しないように、`current_app_name: hello-servlet`の`hello-servlet`を`hello-servlet-自分のアカウント名`に変更してください。
+
 `credentials.yml`
 
 ``` yaml
