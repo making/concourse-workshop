@@ -719,6 +719,8 @@ jobs:
       file: repo-version/number
 ```
 
+> **注意** アプリケーションのURLが重複しないように、`current_app_name: hello-servlet`の`hello-servlet`を`hello-servlet-自分のアカウント名`に変更してください。
+
 `credentials.yml`
 
 ``` yaml
@@ -1046,6 +1048,8 @@ jobs:
     params:
       file: repo-version/number
 ```
+
+> **注意** アプリケーションのURLが重複しないように、`current_app_name: hello-servlet`の`hello-servlet`を`hello-servlet-自分のアカウント名`に変更してください。
 
 ![image](https://user-images.githubusercontent.com/106908/29495941-a8e800c4-8603-11e7-9534-132f4ea53f04.png)
 
