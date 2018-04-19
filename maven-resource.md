@@ -7,7 +7,7 @@ resource_types:
   type: docker-image
   source:
     repository: pivotalpa/maven-resource
-    tag: 1.3.4
+    tag: 1.3.5
 
 resources:
 - name: repo-develop
