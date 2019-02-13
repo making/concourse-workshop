@@ -19,7 +19,7 @@ jobs:
     config:
       platform: linux
       image_resource:
-        type: registry-image
+        type: docker-image
         source:
           repository: maven
       inputs:
@@ -46,7 +46,7 @@ jobs:
     config:
       platform: linux
       image_resource:
-        type: registry-image
+        type: docker-image
         source:
           repository: maven
       inputs:
@@ -96,7 +96,7 @@ jobs:
     config:
       platform: linux
       image_resource:
-        type: registry-image
+        type: docker-image
         source:
           repository: maven
       inputs:
@@ -123,7 +123,7 @@ jobs:
     config:
       platform: linux
       image_resource:
-        type: registry-image
+        type: docker-image
         source:
           repository: maven
       inputs:
@@ -206,7 +206,7 @@ jobs:
     config:
       platform: linux
       image_resource:
-        type: registry-image
+        type: docker-image
         source:
           repository: maven
       inputs:
@@ -233,7 +233,7 @@ jobs:
     config:
       platform: linux
       image_resource:
-        type: registry-image
+        type: docker-image
         source:
           repository: maven
       inputs:
@@ -262,9 +262,9 @@ jobs:
     config:
       platform: linux
       image_resource:
-        type: registry-image
+        type: docker-image
         source:
-          repository: ubuntu
+          repository: ecsteam/scp-resource
       inputs:
       - name: build
       run:
