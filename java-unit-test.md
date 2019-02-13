@@ -19,7 +19,7 @@ jobs:
     config:
       platform: linux
       image_resource:
-        type: registry-image
+        type: docker-image
         source:
           repository: maven
       inputs:
