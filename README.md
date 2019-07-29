@@ -15,6 +15,7 @@ Concourse 3.3以上を想定しています。
 
 * [事前準備](prerequisite.md)
 * [初めてのパイプライン](first-pipeline.md)
+* [Taskのファイル分割](task.md)
 * [Javaアプリケーションのユニットテスト](java-unit-test.md)
 * [キャッシュの導入](caching.md)
 * [Javaアプリケーションのデプロイ](java-deploy.md)
@@ -27,7 +28,6 @@ Concourse 3.3以上を想定しています。
 * WebHook
 * Docker in Dockerを利用したインテグレーションテスト
 * `fly hijack`でデバッグ
-* [Taskのファイル分割](task.md)
 * VaultによるCredentialsの管理
 
 
