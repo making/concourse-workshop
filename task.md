@@ -4,6 +4,7 @@
 `booklit.yml`
 
 ```yaml
+resources:
 - name: booklit
   type: git
   source:
