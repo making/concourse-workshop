@@ -27,7 +27,7 @@ Concourse 3.3以上を想定しています。
 * WebHook
 * Docker in Dockerを利用したインテグレーションテスト
 * `fly hijack`でデバッグ
-* Taskのファイル分割
+* [Taskのファイル分割](task.yml)
 * VaultによるCredentialsの管理
 
 
