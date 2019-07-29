@@ -17,3 +17,9 @@ jobs:
   - task: test
     file: booklit/ci/test.yml
 ```
+
+
+```
+fly -t ws set-pipeline -p booklit -c booklit.yml
+fly -t ws unpause-pipeline -p booklit
+```
