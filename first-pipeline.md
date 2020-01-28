@@ -15,6 +15,7 @@ jobs:
         type: docker-image
         source:
           repository: ubuntu
+          tag: bionic
       run:
         path: bash
         args: 
@@ -29,24 +30,15 @@ jobs:
 fly -t ws set-pipeline -p hello -c pipeline.yml
 ```
 
-![image.png](https://qiita-image-store.s3.amazonaws.com/0/1852/4033757c-1350-db71-48ea-921ea5f7a19f.png)
-
+![image](https://user-images.githubusercontent.com/106908/73242647-e8ab9b00-41e8-11ea-8657-731f798d8766.png)
 
 ### パイプラインのpause解除
 
 
 #### GUIで解除
+![image](https://user-images.githubusercontent.com/106908/73242413-468bb300-41e8-11ea-94ca-807def15d698.png)
 
-![image.png](https://qiita-image-store.s3.amazonaws.com/0/1852/0d95a374-c0c4-ada5-1b48-6b8224f9c1da.png)
-
-
-![image.png](https://qiita-image-store.s3.amazonaws.com/0/1852/4fca0b6d-4035-749d-f799-b2be15e952d7.png)
-
-
-![image.png](https://qiita-image-store.s3.amazonaws.com/0/1852/3d6f66b0-70ba-8281-f927-9b2825216b65.png)
-
-
-![image.png](https://qiita-image-store.s3.amazonaws.com/0/1852/9419831e-ed9e-7123-2145-dcc1170db54e.png)
+![image](https://user-images.githubusercontent.com/106908/73242434-55726580-41e8-11ea-9038-4380207a4023.png)
 
 
 #### CUIで解除
@@ -63,11 +55,15 @@ fly -t ws unpause-pipeline -p hello
 
 #### GUIで実行
 
-![image.png](https://qiita-image-store.s3.amazonaws.com/0/1852/87f9f1d7-9025-ab39-72e3-954784f7a247.png)
+![image](https://user-images.githubusercontent.com/106908/73242549-a1250f00-41e8-11ea-978b-23b2291a1132.png)
 
+![image](https://user-images.githubusercontent.com/106908/73242575-bac65680-41e8-11ea-9a10-f169cb9a82e4.png)
 
-![image.png](https://qiita-image-store.s3.amazonaws.com/0/1852/19e2a9ee-a627-6aa0-0001-ebc7f82b1aa4.png)
+![image](https://user-images.githubusercontent.com/106908/73242804-4809ab00-41e9-11ea-97c9-6c720ae6b526.png)
 
+![image](https://user-images.githubusercontent.com/106908/73242833-5ce63e80-41e9-11ea-894d-e9da801cf324.png)
+
+![image](https://user-images.githubusercontent.com/106908/73242879-7be4d080-41e9-11ea-9672-1a147e7e47c8.png)
 
 #### CUIで実行
 
@@ -75,4 +71,4 @@ fly -t ws unpause-pipeline -p hello
 fly -t ws trigger-job -j hello/hello-world --watch
 ```
 
-![image.png](https://qiita-image-store.s3.amazonaws.com/0/1852/abbbe412-f651-4c09-604d-6507e0a2b10e.png)
+![image](https://user-images.githubusercontent.com/106908/73242929-9d45bc80-41e9-11ea-8b2a-5b266ae85303.png)
