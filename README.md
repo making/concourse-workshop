@@ -1,3 +1,5 @@
+⚠️ Workshop資料新バージョンはこちら👉👉 https://docs.google.com/document/d/1FBYi7oxCGqnEtQx5CgQ6CvHpKawjwbG1pGkxFdNmcmo
+
 # Concourse Workshop
 
 !!!!WIP!!!!
